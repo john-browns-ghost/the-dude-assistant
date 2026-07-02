@@ -1,33 +1,33 @@
 import type { Metadata, Viewport } from 'next';
-import { Bebas_Neue, Playfair_Display } from 'next/font/google';
+import { Pacifico, Quicksand } from 'next/font/google';
 import './globals.css';
 
-const bebas = Bebas_Neue({
+const pacifico = Pacifico({
   weight: '400',
   subsets: ['latin'],
-  variable: '--font-bebas',
+  variable: '--font-pacifico',
   display: 'swap',
 });
 
-const playfair = Playfair_Display({
+const quicksand = Quicksand({
   subsets: ['latin'],
-  variable: '--font-playfair',
+  variable: '--font-quicksand',
   display: 'swap',
 });
 
 export const metadata: Metadata = {
-  title: 'Lebowski — Personal Assistant',
-  description: 'The Dude abides. Your personal AI assistant, man.',
+  title: 'Brody — Personal Assistant',
+  description: 'Ride the wave, man. Your personal AI assistant.',
   manifest: '/manifest.json',
   appleWebApp: {
     capable: true,
     statusBarStyle: 'black-translucent',
-    title: 'The Dude',
+    title: 'Brody',
   },
 };
 
 export const viewport: Viewport = {
-  themeColor: '#090604',
+  themeColor: '#0b1d20',
   width: 'device-width',
   initialScale: 1,
   maximumScale: 1,
@@ -35,7 +35,7 @@ export const viewport: Viewport = {
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
-    <html lang="en" className={`h-full ${bebas.variable} ${playfair.variable}`}>
+    <html lang="en" className={`h-full ${pacifico.variable} ${quicksand.variable}`}>
       <body className="h-full">{children}</body>
     </html>
   );

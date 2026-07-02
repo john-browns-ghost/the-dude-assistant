@@ -4,25 +4,22 @@ import { useEffect, useRef } from 'react';
 
 export type ListenMode = 'idle' | 'passive' | 'command';
 
-// Every reasonable way someone might address Lebowski
+// Every reasonable way someone might address Brody
 const WAKE_PATTERNS = [
-  // Dude variants
+  // Brody variants (speech recognition often hears "brodie" or "brady")
+  /\bhey\s+brod(?:y|ie)\b/i,
+  /\byo\s+brod(?:y|ie)\b/i,
+  /\bok(?:ay)?\s+brod(?:y|ie)\b/i,
+  /\bbrod(?:y|ie)\b/i,
+  /\bhey\s+brady\b/i,
+  // Bro / brother
+  /\bhey\s+bro\b/i,
+  /\byo\s+bro\b/i,
+  /\bhey\s+brother\b/i,
+  // Dude carryovers
   /\bhey\s+dude\b/i,
   /\byo\s+dude\b/i,
   /\bok(?:ay)?\s+dude\b/i,
-  /\bexcuse\s+me\s+dude\b/i,
-  // Lebowski variants
-  /\bhey\s+lebowski\b/i,
-  /\byo\s+lebowski\b/i,
-  /\bok(?:ay)?\s+lebowski\b/i,
-  /\blebowski\b/i,
-  // Duder
-  /\bhey\s+duder\b/i,
-  /\byo\s+duder\b/i,
-  /\bduder\b/i,
-  // His Dudeness / El Duderino
-  /\bhis\s+dude(?:ness)?\b/i,
-  /\bel\s+duderino\b/i,
   // Man
   /\bhey\s+man\b/i,
   /\bok(?:ay)?\s+man\b/i,
@@ -36,8 +33,8 @@ function detectWake(transcript: string): { detected: boolean; remainder: string 
       return { detected: true, remainder };
     }
   }
-  // Single-word wake: "Dude", "Duder", "Lebowski"
-  if (/^\s*(?:dude|duder|lebowski|el\s+duderino|his\s+dude(?:ness)?)[.,!?]?\s*$/i.test(transcript)) {
+  // Single-word wake: "Brody", "Bro", "Dude"
+  if (/^\s*(?:brod(?:y|ie)|brady|bro|brother|dude)[.,!?]?\s*$/i.test(transcript)) {
     return { detected: true, remainder: '' };
   }
   return { detected: false, remainder: '' };

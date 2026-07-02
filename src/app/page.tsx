@@ -12,7 +12,7 @@ export default function Home() {
   }, []);
 
   return (
-    <main className="h-full flex flex-col bg-dude-bg">
+    <main className="h-full flex flex-col bg-brody-bg">
       <ChatInterface />
     </main>
   );

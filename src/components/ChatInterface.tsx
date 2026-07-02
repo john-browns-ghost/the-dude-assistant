@@ -18,12 +18,10 @@ interface Reminder {
 
 function buildGreeting(): string {
   const hour = new Date().getHours();
-  const day  = new Date().toLocaleDateString('en-US', { weekday: 'long' });
 
-  if (hour < 6)  return "Hey. It's late — or early, depending on how you look at it. Either way, I'm here. What's going on?";
-  if (hour < 10) return "Morning. World's still quiet out there. What do you need?";
-  if (day === 'Thursday' && hour >= 17 && hour < 21) return "Thursday evening. I'd normally be out on the lanes right now, but here we are. What's up?";
-  if (hour >= 21) return "Late night. Good time to think. What's on your mind?";
+  if (hour < 6)  return "Hey. It's late — or early, depending on how you look at it. Ocean's calmest before dawn. What's going on?";
+  if (hour < 10) return "Morning, brother. Best light of the day out there. What do you need?";
+  if (hour >= 21) return "Late night. Good time to think — the real thoughts surface when it's quiet. What's on your mind?";
   return "Hey. Good to see you. What can I help with — research, music, the TV, reminders, talking something through... whatever you need, man.";
 }
 
@@ -49,7 +47,7 @@ async function speak(text: string) {
     });
     if (!res.ok) {
       const body = await res.json().catch(() => ({}));
-      _showToast(`ElevenLabs: ${body?.error ?? `HTTP ${res.status}`}`);
+      _showToast(`Voice: ${body?.error ?? `HTTP ${res.status}`}`);
       throw new Error('tts-failed');
     }
     const blob = await res.blob();
@@ -70,7 +68,7 @@ async function speak(text: string) {
 function scheduleReminder(reminder: Reminder) {
   setTimeout(() => {
     if ('Notification' in window && Notification.permission === 'granted') {
-      new Notification("The Dude's got a reminder for ya, man", {
+      new Notification("Brody's got a reminder for you, man", {
         body: reminder.message, icon: '/icon-192.png',
       });
     } else {
@@ -178,18 +176,19 @@ export default function ChatInterface() {
     <div className="flex flex-col h-full max-w-2xl mx-auto w-full relative">
 
       {/* ── Header ──────────────────────────────────────────────────────────── */}
-      <header className="flex-shrink-0 bg-dude-surface rug-border-top">
+      <header className="flex-shrink-0 bg-brody-surface">
+        <div className="wave-divider" />
         <div className="flex items-center justify-between px-5 py-3">
 
           {/* Title block */}
           <div className="flex items-center gap-3">
-            <span className="text-3xl leading-none select-none">🎳</span>
+            <span className="text-3xl leading-none select-none drift">🌊</span>
             <div>
-              <h1 className="font-bebas text-4xl leading-none tracking-wider title-shimmer">
-                Lebowski
+              <h1 className="font-pacifico text-3xl leading-tight title-shimmer pb-1">
+                Brody
               </h1>
-              <p className="font-playfair text-[10px] italic text-dude-muted tracking-widest uppercase">
-                Personal Assistant · abides
+              <p className="font-quicksand text-[10px] text-brody-muted tracking-[0.25em] uppercase">
+                Personal Assistant · rides the wave
               </p>
             </div>
           </div>
@@ -200,18 +199,18 @@ export default function ChatInterface() {
             {/* Wake word toggle */}
             <button
               onClick={togglePassive}
-              title={passiveEnabled ? 'Disable wake word' : 'Enable wake word ("Hey Lebowski", "Duder", etc.)'}
+              title={passiveEnabled ? 'Disable wake word' : 'Enable wake word ("Hey Brody", "Brody", etc.)'}
               className={`relative w-9 h-9 rounded-full flex items-center justify-center border
                 transition-all duration-300 text-sm
                 ${passiveEnabled
                   ? isCommand
-                    ? 'border-dude-red text-dude-red bg-dude-surface shadow-red-glow'
-                    : 'border-dude-gold text-dude-gold bg-dude-card shadow-gold-glow'
-                  : 'border-dude-border text-dude-muted bg-dude-surface hover:border-dude-border hover:text-dude-gold'
+                    ? 'border-brody-coral text-brody-coral bg-brody-surface shadow-coral-glow'
+                    : 'border-brody-foam text-brody-foam bg-brody-card shadow-foam-glow'
+                  : 'border-brody-border text-brody-muted bg-brody-surface hover:border-brody-border hover:text-brody-foam'
                 }`}
             >
               {passiveEnabled && (
-                <span className={`absolute inset-0 rounded-full pulse-ring ${isCommand ? 'bg-dude-red' : 'bg-dude-gold'} opacity-20`} />
+                <span className={`absolute inset-0 rounded-full pulse-ring ${isCommand ? 'bg-brody-coral' : 'bg-brody-foam'} opacity-20`} />
               )}
               👂
             </button>
@@ -223,8 +222,8 @@ export default function ChatInterface() {
               className={`w-9 h-9 rounded-full flex items-center justify-center border
                 transition-all duration-300 text-sm
                 ${voiceOutput
-                  ? 'border-dude-gold text-dude-gold bg-dude-card shadow-gold-glow'
-                  : 'border-dude-border text-dude-muted bg-dude-surface hover:text-dude-gold'
+                  ? 'border-brody-foam text-brody-foam bg-brody-card shadow-foam-glow'
+                  : 'border-brody-border text-brody-muted bg-brody-surface hover:text-brody-foam'
                 }`}
             >
               {voiceOutput ? '🔊' : '🔇'}
@@ -236,15 +235,15 @@ export default function ChatInterface() {
               className={`w-2 h-2 rounded-full transition-all ${
                 spotifyConn
                   ? 'bg-green-400 shadow-[0_0_6px_rgba(74,222,128,0.6)]'
-                  : 'bg-dude-muted'
+                  : 'bg-brody-muted'
               }`}
             />
 
             {/* Settings */}
             <button
               onClick={() => setSettingsOpen(true)}
-              className="w-9 h-9 rounded-full flex items-center justify-center border border-dude-border
-                text-dude-muted hover:text-dude-gold hover:border-dude-gold hover:shadow-gold-glow
+              className="w-9 h-9 rounded-full flex items-center justify-center border border-brody-border
+                text-brody-muted hover:text-brody-foam hover:border-brody-foam hover:shadow-foam-glow
                 transition-all duration-300 text-base"
             >
               ⚙
@@ -254,37 +253,37 @@ export default function ChatInterface() {
 
         {/* Passive status strip */}
         {passiveEnabled && (
-          <div className={`px-5 py-1 flex items-center gap-2 border-t text-[11px] font-playfair italic
+          <div className={`px-5 py-1 flex items-center gap-2 border-t text-[11px] font-quicksand
             transition-colors duration-300
             ${isCommand
-              ? 'border-dude-red/40 bg-dude-red/10 text-red-300'
-              : 'border-dude-border bg-dude-bg/40 text-dude-muted'
+              ? 'border-brody-coral/40 bg-brody-coral/10 text-brody-coral-hi'
+              : 'border-brody-border bg-brody-bg/40 text-brody-muted'
             }`}
           >
-            <span className={`w-1.5 h-1.5 rounded-full flex-shrink-0 pulse-ring ${isCommand ? 'bg-red-400' : 'bg-dude-gold'}`} />
-            {isCommand ? 'Go ahead, man…' : 'Listening for "Lebowski", "Duder", "Hey Dude"…'}
+            <span className={`w-1.5 h-1.5 rounded-full flex-shrink-0 pulse-ring ${isCommand ? 'bg-brody-coral' : 'bg-brody-foam'}`} />
+            {isCommand ? 'Go ahead, man…' : 'Listening for "Brody", "Hey Brody", "Hey man"…'}
           </div>
         )}
       </header>
 
       {/* ── Messages ────────────────────────────────────────────────────────── */}
-      <div className="flex-1 overflow-y-auto px-5 py-5 flex flex-col gap-5 bg-lane vignette relative">
+      <div className="flex-1 overflow-y-auto px-5 py-5 flex flex-col gap-5 bg-lagoon relative">
         {messages.map((m, i) => <MessageBubble key={i} message={m} />)}
 
         {/* Typing indicator */}
         {isLoading && (
           <div className="fade-up flex gap-3 items-start">
             <div className="w-8 h-8 rounded-full flex items-center justify-center text-base flex-shrink-0
-              bg-dude-green border border-dude-border">
-              🎳
+              bg-brody-palm border border-brody-border">
+              🌊
             </div>
             <div className="flex flex-col gap-1">
-              <span className="text-dude-muted text-[10px] uppercase tracking-widest font-playfair px-1">The Dude</span>
-              <div className="bg-dude-assistant border border-dude-border rounded-2xl rounded-tl-sm
+              <span className="text-brody-muted text-[10px] uppercase tracking-widest font-quicksand px-1">Brody</span>
+              <div className="bg-brody-assistant border border-brody-border rounded-smooth rounded-tl-md
                 px-5 py-3.5 flex items-center gap-2">
-                <span className="typing-dot w-1.5 h-1.5 rounded-full bg-dude-gold inline-block" />
-                <span className="typing-dot w-1.5 h-1.5 rounded-full bg-dude-gold inline-block" />
-                <span className="typing-dot w-1.5 h-1.5 rounded-full bg-dude-gold inline-block" />
+                <span className="typing-dot w-1.5 h-1.5 rounded-full bg-brody-foam inline-block" />
+                <span className="typing-dot w-1.5 h-1.5 rounded-full bg-brody-foam inline-block" />
+                <span className="typing-dot w-1.5 h-1.5 rounded-full bg-brody-foam inline-block" />
               </div>
             </div>
           </div>
@@ -293,7 +292,8 @@ export default function ChatInterface() {
       </div>
 
       {/* ── Input area ──────────────────────────────────────────────────────── */}
-      <div className="flex-shrink-0 bg-dude-surface rug-border-top px-4 py-3">
+      <div className="flex-shrink-0 bg-brody-surface px-4 py-3">
+        <div className="wave-divider mb-3" />
         <div className="flex items-end gap-2.5">
           <textarea
             ref={inputRef}
@@ -301,12 +301,12 @@ export default function ChatInterface() {
             onChange={e => setInput(e.target.value)}
             onKeyDown={handleKeyDown}
             disabled={isLoading}
-            placeholder={passiveEnabled ? 'Say "Lebowski" or type here…' : 'Talk to Lebowski, man…'}
+            placeholder={passiveEnabled ? 'Say "Brody" or type here…' : 'Talk to Brody, man…'}
             rows={1}
-            className="flex-1 resize-none bg-dude-bg border border-dude-border rounded-2xl
-              px-4 py-2.5 text-sm text-dude-cream font-playfair
-              placeholder-dude-muted focus:outline-none focus:border-dude-gold
-              focus:shadow-gold-glow transition-all disabled:opacity-40"
+            className="flex-1 resize-none bg-brody-bg border border-brody-border rounded-smooth
+              px-4 py-2.5 text-sm text-brody-sand font-quicksand
+              placeholder-brody-muted focus:outline-none focus:border-brody-foam
+              focus:shadow-foam-glow transition-all disabled:opacity-40"
             style={{ maxHeight: '120px', overflowY: 'auto' }}
             onInput={e => {
               const el = e.currentTarget;
@@ -319,14 +319,14 @@ export default function ChatInterface() {
             onClick={() => sendMessage(input)}
             disabled={isLoading || !input.trim()}
             className="w-10 h-10 rounded-full flex items-center justify-center flex-shrink-0
-              bg-dude-gold text-dude-bg text-lg font-bold
-              hover:bg-dude-gold-hi hover:shadow-neon-gold
+              bg-brody-foam text-brody-bg text-lg font-bold
+              hover:bg-brody-foam-hi hover:shadow-foam-glow
               disabled:opacity-25 disabled:cursor-not-allowed transition-all duration-300"
           >
             ↑
           </button>
         </div>
-        <p className="text-center text-dude-muted text-[10px] font-playfair italic mt-2 opacity-40">
+        <p className="text-center text-brody-muted text-[10px] font-quicksand mt-2 opacity-40">
           Enter to send · Shift+Enter for new line · 🎙 to speak
         </p>
       </div>
@@ -343,10 +343,10 @@ export default function ChatInterface() {
       {/* ── Toast ────────────────────────────────────────────────────────────── */}
       {toast && (
         <div className="fixed bottom-24 left-1/2 -translate-x-1/2 z-50 max-w-sm w-full px-4">
-          <div className="bg-dude-red/20 border border-dude-red/60 text-red-300 text-xs font-playfair
-            rounded-xl px-4 py-2.5 flex items-center justify-between gap-3 shadow-red-glow">
+          <div className="bg-brody-coral/20 border border-brody-coral/60 text-brody-coral-hi text-xs font-quicksand
+            rounded-smooth px-4 py-2.5 flex items-center justify-between gap-3 shadow-coral-glow">
             <span>⚠ {toast}</span>
-            <button onClick={() => setToast(null)} className="text-red-500 hover:text-red-300 flex-shrink-0">✕</button>
+            <button onClick={() => setToast(null)} className="text-brody-coral hover:text-brody-coral-hi flex-shrink-0">✕</button>
           </div>
         </div>
       )}

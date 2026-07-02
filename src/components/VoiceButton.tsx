@@ -70,18 +70,18 @@ export default function VoiceButton({ onTranscript, disabled }: Props) {
     <div className="relative flex items-center justify-center">
       {isListening && (
         <>
-          <span className="absolute inset-0 rounded-full bg-dude-red opacity-40 pulse-ring" />
-          <span className="absolute inset-0 rounded-full bg-dude-red opacity-20 pulse-ring" style={{ animationDelay: '0.4s' }} />
+          <span className="absolute inset-0 rounded-full bg-brody-coral opacity-40 pulse-ring" />
+          <span className="absolute inset-0 rounded-full bg-brody-coral opacity-20 pulse-ring" style={{ animationDelay: '0.4s' }} />
         </>
       )}
       <button
         onClick={toggle}
         disabled={disabled}
-        title={isListening ? 'Stop listening' : 'Speak to The Dude'}
-        className={`relative w-10 h-10 rounded-full flex items-center justify-center transition-all duration-300 border font-playfair text-base
+        title={isListening ? 'Stop listening' : 'Speak to Brody'}
+        className={`relative w-10 h-10 rounded-full flex items-center justify-center transition-all duration-300 border font-quicksand text-base
           ${isListening
-            ? 'bg-dude-red border-red-700 text-white shadow-red-glow'
-            : 'bg-dude-surface border-dude-border text-dude-gold hover:border-dude-gold hover:shadow-gold-glow hover:bg-dude-card'
+            ? 'bg-brody-coral border-brody-coral-hi text-white shadow-coral-glow'
+            : 'bg-brody-surface border-brody-border text-brody-foam hover:border-brody-foam hover:shadow-foam-glow hover:bg-brody-card'
           } disabled:opacity-30 disabled:cursor-not-allowed`}
       >
         {isListening ? '◼' : '🎙'}
